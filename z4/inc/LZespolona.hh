@@ -18,6 +18,10 @@ struct  LZespolona
 {
   double   re;    /*! Pole repezentuje czesc rzeczywista. */
   double   im;    /*! Pole repezentuje czesc urojona. */
+
+explicit LZespolona (double liczba) : re(liczba), im(0) {};
+LZespolona operator = (double liczba) {re=liczba; im=0.0;};
+LZespolona operator += (const LZespolona & L2);
 };
 
 std::istream & operator >> (std::istream & strm, LZespolona &Skl);

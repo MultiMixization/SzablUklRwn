@@ -1,23 +1,26 @@
 #include "Wektor.hh"
 
+template <int rozmiar>
 Wektor::Wektor()
 {
-  for(int i=0;i<ROZMIAR;i++)
+  for(int i=0;i<rozmiar;i++)
     {
       this->tab[i]=0;
     }
 }
 
-Wektor::Wektor(double xx, double yy, double zz)
+template <typename typ>
+Wektor::Wektor(typ xx, typ yy, typ zz)
 {
   this->tab[0]=xx;
   this->tab[1]=yy;
   this->tab[2]=zz;
 }
 
-Wektor::Wektor(double *tablica)
+template<typename typ, int rozmiar>
+Wektor::Wektor(typ *tablica)
 {
-  for(int i=0;i<ROZMIAR;i++)
+  for(int i=0;i<rozmiar;i++)
     {
 	this->tab[i]=tablica[i];
     }
@@ -25,15 +28,15 @@ Wektor::Wektor(double *tablica)
 
 Wektor::Wektor(const Wektor &W)
 {
-  for(int i=0;i<ROZMIAR;i++)
+  for(int i=0;i<rozmiar;i++)
     {
       this->tab[i]=W[i];
     }
 }
 
-const double & Wektor::operator [](int index) const
+const typ & Wektor::operator [](int index) const
 {
-  if(index<0 || index >=ROZMIAR)
+  if(index<0 || index >=rozmiar)
     {
       std::cerr << "Poza zakresem." << std::endl;
       exit(1);
@@ -41,9 +44,9 @@ const double & Wektor::operator [](int index) const
   return tab[index];
 }
 
-double & Wektor::operator [](int index)
+typ & Wektor::operator [](int index)
 {
-  if(index<0 || index >=ROZMIAR)
+  if(index<0 || index >=rozmiar)
     {
       std::cerr << "Poza Zakresem." << std::endl;
       exit(1);
@@ -51,69 +54,69 @@ double & Wektor::operator [](int index)
   return tab[index];
 }
 
-Wektor Wektor::operator +(const Wektor & W2) const
+Wektor<typ, rozmiar> Wektor::operator +(const Wektor<typ, rozmiar> & W2) const
 {
-  Wektor temp;
-  for(int i=0;i<ROZMIAR;i++)
+  Wektor<typ, rozmiar> temp;
+  for(int i=0;i<rozmiar;i++)
     {
       temp[i]=(*this)[i]+W2[i];
     }
   return temp;
 }
 
-Wektor Wektor::operator -(const Wektor & W2) const
+Wektor<typ, rozmiar> Wektor::operator -(const Wektor<typ, rozmiar> & W2) const
 {
-  Wektor temp;
-  for(int i=0;i<ROZMIAR;i++)
+  Wektor<typ, rozmiar> temp;
+  for(int i=0;i<rozmiar;i++)
     {
       temp[i]=(*this)[i]-W2[i];
     }
   return temp;
 }
 
-double Wektor::operator *(const Wektor & W2) const
+typ Wektor::operator *(const Wektor<typ, rozmiar> & W2) const
 {
-  double wynik=0;
-  for(int i=0;i<ROZMIAR;i++)
+  typ wynik=0;
+  for(int i=0;i<rozmiar;i++)
     {
       wynik+=(*this)[i]*W2[i];
     }
   return wynik;
 }
 
-Wektor Wektor::operator *(const double & ls) const
+Wektor<typ, rozmiar> Wektor::operator *(const typ & ls) const
 {
-  Wektor temp;
-  for(int i=0;i<ROZMIAR;i++)
+  Wektor<typ, rozmiar> temp;
+  for(int i=0;i<rozmiar;i++)
     {
       temp[i]=(*this)[i]*ls;
     }
   return temp;
 }
 
-Wektor Wektor::operator /(const double & ls) const
+Wektor<typ, rozmiar> Wektor::operator /(const typ & ls) const
 {
-  Wektor temp;
-  for(int i=0;i<ROZMIAR;i++)
+  Wektor<typ, rozmiar> temp;
+  for(int i=0;i<rozmiar;i++)
     {
       temp[i]=(*this)[i]/ls;
     }
   return temp;
 }
 
-double Wektor::dlugosc()
+typ Wektor::dlugosc()
 {
-  double sum=0;
-  for(int i=0;i<ROZMIAR;i++)
+  typ sum=0;
+  for(int i=0;i<rozmiar;i++)
     {
       sum+=(*this)[i];
     }
   return sqrt(sum);
 }
 
-bool Wektor::operator ==(const Wektor &W2) const
+bool Wektor::operator ==(const Wektor<typ, rozmiar> &W2) const
 {
-  for(int i=0;i<ROZMIAR;i++)
+  for(int i=0;i<rozmiar;i++)
     {
       if(abs((*this)[i]-W2[i])>0.00001)
 	{
@@ -123,37 +126,40 @@ bool Wektor::operator ==(const Wektor &W2) const
   return 1;
 }
 
-bool Wektor::operator !=(const Wektor &W2) const
+bool Wektor::operator !=(const Wektor &<typ, rozmiar>W2) const
 {
   return !((*this)==W2);
 }
 
-Wektor Wektor::swap(int w1, int w2) const
+Wektor<typ, rozmiar> Wektor::swap(int w1, int w2) const
 {
-  Wektor W(*this);
-  if(w1<0 || w1>=ROZMIAR || w2<0 || w2>=ROZMIAR)
+  Wektor<typ, rozmiar> W(*this);
+  if(w1<0 || w1>=rozmiar || w2<0 || w2>=rozmiar)
     {
       std::cerr << "Poza zakresem." << std::endl;
       exit(1);
     }
-  double temp(W[w1]);
+  typ temp(W[w1]);
   W[w1]=W[w2];
   W[w2]=temp;
   return W;
 }
 
-std::istream &operator >> (std::istream &Strm, Wektor &Wek)
+
+template <typename typ, int rozmiar>
+std::istream &operator >> (std::istream &Strm, Wektor<typ, rozmiar> &Wek)
 {
-  for(int i=0;i<ROZMIAR;i++)
+  for(int i=0;i<rozmiar;i++)
     {
       Strm >> Wek[i];
     }
   return Strm;
 }
 
-std::ostream &operator << (std::ostream &Strm, const Wektor &Wek)
+template <typename typ, int rozmiar>
+std::ostream &operator << (std::ostream &Strm, const Wektor<typ, rozmiar> &Wek)
 {
-  for(int i=0;i<ROZMIAR;i++)
+  for(int i=0;i<rozmiar;i++)
     {
       if(Wek[i]>=0)
 	{
@@ -164,7 +170,8 @@ std::ostream &operator << (std::ostream &Strm, const Wektor &Wek)
   return Strm;
 }
 
-Wektor operator *(double l1, Wektor &W2)
+template <typename typ, int rozmiar>
+Wektor operator *(typ l1, Wektor<typ, rozmiar> &W2)
 {
   return W2*l1;
 }

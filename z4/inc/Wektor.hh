@@ -1,38 +1,44 @@
 #ifndef WEKTOR_HH
 #define WEKTOR_HH
 
+#include "LZespolona.hh"
 #include "rozmiar.h"
 #include <iostream>
 #include <cmath>
 
+template <typename typ, int rozmiar>
 class Wektor {
-  double tab[ROZMIAR];
+  typ tab[rozmiar];
 public:
-  Wektor();
-  Wektor(double xx, double yy, double zz);
-  Wektor(double *tablica);
-  Wektor(const Wektor &W);
+  Wektor<typ, rozmiar>();
+  Wektor<typ, rozmiar>(typ xx, typ yy, typ zz);
+  Wektor<typ, rozmiar>(typ *tablica);
+  Wektor<typ, rozmiar>(const Wektor<typ, rozmiar> &W);
 
-  const double & operator [](int index) const;
-  double & operator [](int index);
+  const typ & operator [](int index) const;
+  typ & operator [](int index);
   
-  Wektor operator +(const Wektor &W2)const;
-  Wektor operator -(const Wektor &W2)const;
-  double operator *(const Wektor &W2)const;
-  Wektor operator *(const double &l2)const;
-  Wektor operator /(const double &l2)const;
+  Wektor<typ, rozmiar> operator +(const Wektor<typ, rozmiar> &W2)const;
+  Wektor<typ, rozmiar> operator -(const Wektor<typ, rozmiar> &W2)const;
+  typ operator *(const Wektor<typ, rozmiar> &W2)const;
+  Wektor<typ, rozmiar> operator *(const typ &l2)const;
+  Wektor<typ, rozmiar> operator /(const typ &l2)const;
 
-  double dlugosc();
+  typ dlugosc();
 
-  bool operator ==(const Wektor &W2)const;
-  bool operator !=(const Wektor &W2)const;
+  bool operator ==(const Wektor<typ, rozmiar> &W2)const;
+  bool operator !=(const Wektor<typ, rozmiar> &W2)const;
 
-  Wektor swap(int w1, int w2) const;
+  Wektor<typ, rozmiar> swap(int w1, int w2) const;
 };
 
-std::istream& operator >> (std::istream &Strm, Wektor &Wek);
-std::ostream& operator << (std::ostream &Strm, const Wektor &Wek);
+template <typename typ, int rozmiar>
+std::istream& operator >> (std::istream &Strm, Wektor<typ, rozmiar> &Wek);
 
-Wektor operator *(double l1, Wektor &W2);
+template <typename typ, int rozmiar>
+std::ostream& operator << (std::ostream &Strm, const Wektor<typ, rozmiar> &Wek);
+
+template <typename typ, int rozmiar>
+Wektor<typ, rozmiar> operator *(typ l1, Wektor<typ, rozmiar> &W2);
 
 #endif
