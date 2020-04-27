@@ -9,14 +9,6 @@ Wektor::Wektor()
     }
 }
 
-template <typename typ>
-Wektor::Wektor(typ xx, typ yy, typ zz)
-{
-  this->tab[0]=xx;
-  this->tab[1]=yy;
-  this->tab[2]=zz;
-}
-
 template<typename typ, int rozmiar>
 Wektor::Wektor(typ *tablica)
 {
@@ -171,7 +163,7 @@ std::ostream &operator << (std::ostream &Strm, const Wektor<typ, rozmiar> &Wek)
 }
 
 template <typename typ, int rozmiar>
-Wektor operator *(typ l1, Wektor<typ, rozmiar> &W2)
+Wektor<typ, rozmiar> operator *(typ l1, Wektor<typ, rozmiar> &W2)
 {
   return W2*l1;
 }

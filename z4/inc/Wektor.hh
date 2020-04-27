@@ -9,9 +9,9 @@
 template <typename typ, int rozmiar>
 class Wektor {
   typ tab[rozmiar];
+  
 public:
   Wektor<typ, rozmiar>();
-  Wektor<typ, rozmiar>(typ xx, typ yy, typ zz);
   Wektor<typ, rozmiar>(typ *tablica);
   Wektor<typ, rozmiar>(const Wektor<typ, rozmiar> &W);
 
