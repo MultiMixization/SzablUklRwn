@@ -6,25 +6,29 @@
 #include "Macierz.hh"
 #include "Wektor.hh"
 
+template <typename typ, int rozmiar>
 class UkladRownanLiniowych {
-  Macierz UklMac;
-  Wektor UklWek;
+  Macierz<typ, rozmiar> UklMac;
+  Wektor<typ, rozmiar> UklWek;
   
 public:
-  UkladRownanLiniowych(){}; //Zostawiam puste
-  UkladRownanLiniowych(const Macierz & A, const Wektor & B);
+  UkladRownanLiniowych<typ, rozmiar>(){}; //Zostawiam puste
+  UkladRownanLiniowych<typ, rozmiar>(const Macierz<typ, rozmiar> & A, const Wektor<typ, rozmiar> & B);
   
-  const Wektor & getwektor() const;
-  void setwektor(const Wektor & W);
+  const Wektor<typ, rozmiar> & getwektor() const;
+  void setwektor(const Wektor<typ, rozmiar> & W);
 
-  const Macierz & getmacierz() const;
-  void setmacierz(const Macierz & M);
+  const Macierz<typ, rozmiar> & getmacierz() const;
+  void setmacierz(const Macierz<typ, rozmiar> & M);
   
-  Wektor Rozwiaz()const;
+  Wektor<typ, rozmiar> Rozwiaz()const;
 };
 
-std::istream& operator >> (std::istream &Strm, UkladRownanLiniowych &UklRown);
-std::ostream& operator << (std::ostream &Strm, const UkladRownanLiniowych &UklRown);
+template <typename typ, int rozmiar>
+std::istream& operator >> (std::istream &Strm, UkladRownanLiniowych<typ, rozmiar> &UklRown);
+
+template <typename typ, int rozmiar>
+std::ostream& operator << (std::ostream &Strm, const UkladRownanLiniowych<typ, rozmiar> &UklRown);
 
 
 #endif

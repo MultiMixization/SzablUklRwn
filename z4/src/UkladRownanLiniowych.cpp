@@ -1,41 +1,47 @@
 #include "UkladRownanLiniowych.hh"
 
-UkladRownanLiniowych::UkladRownanLiniowych(const Macierz &Am, const Wektor &Bw)
+template <typename typ, int rozmiar>
+UkladRownanLiniowych::UkladRownanLiniowych(const Macierz<typ, rozmiar> &Am, const Wektor<typ, rozmiar> &Bw)
 {
   this->UklMac=Am;
   this->UklWek=Bw;
 }
 
-const Wektor & UkladRownanLiniowych::getwektor() const
+template <typename typ, int rozmiar>
+const Wektor<typ, rozmiar> & UkladRownanLiniowych::getwektor() const
 {
   return UklWek;
 }
 
-void UkladRownanLiniowych::setwektor(const Wektor &W)
+template <typename typ, int rozmiar>
+void UkladRownanLiniowych::setwektor(const Wektor<typ, rozmiar> &W)
 {
   this->UklWek=W;
 }
 
-const Macierz & UkladRownanLiniowych::getmacierz() const
+template <typename typ, int rozmiar>
+const Macierz<typ, rozmiar> & UkladRownanLiniowych::getmacierz() const
 {
   return UklMac;
 }
 
-void UkladRownanLiniowych::setmacierz(const Macierz &M)
+template <typename typ, int rozmiar>
+void UkladRownanLiniowych::setmacierz(const Macierz<typ, rozmiar> &M)
 {
   this->UklMac=M;
 }
 
-Wektor UkladRownanLiniowych::Rozwiaz() const  //Na razie Crammer
+template <typename typ, int rozmiar>
+Wektor<typ, rozmiar> UkladRownanLiniowych::Rozwiaz() const  //Na razie Crammer
 {
-  Wektor UklW(UklWek);
-  Macierz UklM(this->UklMac);
-  Wektor Wynik;
-  double W;
+  Wektor<typ, rozmiar> UklW(UklWek);
+  Macierz<typ, rozmiar> UklM(this->UklMac);
+  Wektor<typ, rozmiar> Wynik;
+  typ W;
 
   W=UklM.wyznacznik();
   
-  for(int i=0;i<ROZMIAR;i++)
+  for(int i=0;i<rozmiar;i++)
     {
       UklM[i]=UklWek;    //podmienianie odpowiedniej kolumny wektorem
       Wynik[i]=UklM.wyznacznik();       //Obliczanie wyznacznika podmienionej macierzy
@@ -49,7 +55,7 @@ Wektor UkladRownanLiniowych::Rozwiaz() const  //Na razie Crammer
     }
   else
     {
-      for(int i=0;i<ROZMIAR;i++)
+      for(int i=0;i<rozmiar;i++)
 	{
 	  Wynik[i]=Wynik[i]/W;
 	}
@@ -58,21 +64,23 @@ Wektor UkladRownanLiniowych::Rozwiaz() const  //Na razie Crammer
   
 }
 
-std::istream & operator >> (std::istream &Strm, UkladRownanLiniowych &UklRown)
+template <typename typ, int rozmiar>
+std::istream & operator >> (std::istream &Strm, UkladRownanLiniowych<typ, rozmiar> &UklRown)
 {
-  Wektor tempW;
-  Macierz tempM;
+  Wektor<typ, rozmiar> tempW;
+  Macierz<typ, rozmiar> tempM;
   Strm >> tempM >> tempW;
   UklRown.setwektor(tempW);
   UklRown.setmacierz(tempM);
   return Strm;
 }
 
-std::ostream & operator << (std::ostream &Strm, const UkladRownanLiniowych &UklRown)
+template <typename typ, int rozmiar>
+std::ostream & operator << (std::ostream &Strm, const UkladRownanLiniowych<typ, rozmiar> &UklRown)
 {
-  Macierz trans(UklRown.getmacierz().transponuj());
+  Macierz<typ, rozmiar> trans(UklRown.getmacierz().transponuj());
 
-  for(int i=0;i<ROZMIAR;i++)
+  for(int i=0;i<rozmiar;i++)
     {
       Strm << "| " << trans[i] << " |" << "|x_" << i+1 << "|" << "  " << (i==1?'=':' ') << "|" << UklRown.getwektor()[i] << "|" << std::endl;
     }

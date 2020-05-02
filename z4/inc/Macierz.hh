@@ -8,17 +8,15 @@
 template<typename typ, int rozmiar>
 class Macierz {
   Wektor<typ, rozmiar> tab[ROZMIAR];
+
+  typ dopelnienie(int x, int y) const;
 public:
-  Macierz();
-  Macierz(typ tablica[]);
-  Macierz(Wektor<typ, rozmiar> tablica[]);
-  Macierz(int jednostkowa);
+  Macierz() {for(int j=0;j<rozmiar;j++){for(int i=0;i<rozmiar;i++){this->tab[i][j]=0}}};
 
   const Wektor<typ, rozmiar> & operator [] (int index) const;
   Wektor<typ, rozmiar> & operator [](int index);
   
-  double wyznacznik()const;
-  double dopelnienie(int x, int y)const;
+  typ wyznacznik()const;
 
   Macierz<typ, rozmiar> operator +(const Macierz<typ, rozmiar> &B) const;
   Macierz<typ, rozmiar> operator -(const Macierz<typ, rozmiar> &B)const;
@@ -43,6 +41,6 @@ template <typename typ, int rozmiar>
 std::ostream& operator << (std::ostream &Strm, const Macierz<typ rozmiar> &Mac);
 
 template <typename typ, int rozmiar>
-Macierz<typ rozmiar> operator *(typ l, const Macierz<typ, rozmiar> M);
+Macierz<typ rozmiar> operator *(double l, const Macierz<typ, rozmiar> M);
 
 #endif

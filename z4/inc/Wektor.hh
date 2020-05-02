@@ -11,9 +11,7 @@ class Wektor {
   typ tab[rozmiar];
   
 public:
-  Wektor<typ, rozmiar>();
-  Wektor<typ, rozmiar>(typ *tablica);
-  Wektor<typ, rozmiar>(const Wektor<typ, rozmiar> &W);
+  Wektor<typ, rozmiar>(){for(typ &Wsp: array) Wsp=0;};
 
   const typ & operator [](int index) const;
   typ & operator [](int index);
@@ -23,8 +21,6 @@ public:
   typ operator *(const Wektor<typ, rozmiar> &W2)const;
   Wektor<typ, rozmiar> operator *(const typ &l2)const;
   Wektor<typ, rozmiar> operator /(const typ &l2)const;
-
-  typ dlugosc();
 
   bool operator ==(const Wektor<typ, rozmiar> &W2)const;
   bool operator !=(const Wektor<typ, rozmiar> &W2)const;

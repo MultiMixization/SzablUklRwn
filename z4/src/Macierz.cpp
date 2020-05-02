@@ -259,7 +259,7 @@ std::ostream& operator << (std::ostream &Strm, const Macierz<typ, rozmiar> &Mac)
 }
 
 template <typename typ, int rozmiar>
-Macierz operator *(typ l, const Macierz<typ,rozmiar> M)
+Macierz operator *(double l, const Macierz<typ,rozmiar> M)
 {
   return M*l;
 }
