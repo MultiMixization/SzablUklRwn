@@ -1,7 +1,7 @@
 #include "LZespolona.hh"
 
 
-LZespolona sprzerzenie(const LZespolona &Skl1)
+LZespolona sprzezenie(const LZespolona &Skl1)
 {
   LZespolona temp=Skl1;
   temp.im=temp.im*(-1);
@@ -38,7 +38,7 @@ std::ostream & operator << (std::ostream &strm, const LZespolona Skl)
 
 bool operator == (const LZespolona Skl1, const LZespolona Skl2)
 {
-  if(Skl1.re==Skl2.re && Skl1.im==Skl2.im)
+  if(abs(Skl1.re-Skl2.re)<0.0000001 && abs(Skl1.im-Skl2.im)<0.0000001)
     {
       return true;
     }
@@ -56,7 +56,7 @@ bool operator != (const LZespolona Skl1, const LZespolona Skl2)
 
 bool operator == (const LZespolona Skl1, const double a)
 {
-  if(Skl1.re==a && Skl1.im==0.0)
+  if(abs(Skl1.re-a)<0.0000001 && abs(Skl1.im)<0.0000001)
     {
       return true;
     }
@@ -102,7 +102,7 @@ LZespolona operator * (const LZespolona Skl1, const double a)
 LZespolona operator / (const LZespolona Skl1, const double a)
 {
   LZespolona Wynik;
-  if(a==0)
+  if(abs(a)<0.0000001)
     {
       std::cerr << "Nie dziel przez 0!" << std::endl;
       std::exit(1);
@@ -144,12 +144,11 @@ LZespolona operator / (const LZespolona Skl1, const LZespolona Skl2)
 {
   LZespolona Wynik;
   
-  if(Skl2.re==0 && Skl2.im==0)
+  if(abs(Skl2.re)<0.0000001 && abs(Skl2.im)<0.0000001)
     {
       std::cerr << "Blad! Dzielenie przez 0." << std::endl;
       std::exit(1);
     }
-  Wynik.re=(Skl1.re*Skl2.re+Skl1.im*Skl2.im)/(pow(Skl1.im,2)+pow(Skl2.im,2));
-  Wynik.im=(Skl1.im*Skl2.re-Skl1.re*Skl2.im)/(pow(Skl1.im,2)+pow(Skl2.im,2));
+  Wynik=(Skl1*sprzezenie(Skl2))/(modul(Skl2)*modul(Skl2));
   return Wynik;
 }

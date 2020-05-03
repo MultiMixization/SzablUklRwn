@@ -74,7 +74,7 @@ std::ostream & operator << (std::ostream &Strm, const UkladRownanLiniowych<typ, 
 
   for(int i=0;i<rozmiar;i++)
     {
-      Strm << "| " << trans[i] << " |" << "|x_" << i+1 << "|" << "  " << (i==1?'=':' ') << "|" << UklRown.getwektor()[i] << "|" << std::endl;
+      Strm << "| " << trans[i] << " |" << "|x_" << i+1 << "|" << "  " << (i==(rozmiar)/2?'=':' ') << "|" << UklRown.getwektor()[i] << "|" << std::endl;
     }
   return Strm;
 }

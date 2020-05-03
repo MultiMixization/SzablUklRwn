@@ -25,11 +25,11 @@ Wektor<typ, rozmiar> & Macierz<typ, rozmiar>::operator [](int index)
 template<typename typ, int rozmiar>
 typ Macierz<typ, rozmiar>::wyznacznik() const //Gauss
 {
-  Macierz Mtemp(*this);
+  Macierz<typ, rozmiar> Mtemp(*this);
   typ temp(1);
   for(int i=0;i<rozmiar;i++)
     {
-      bool flaga=0;
+      bool flaga=false;
       int j=i;
       while(!flaga && j<rozmiar)
 	{
@@ -40,7 +40,7 @@ typ Macierz<typ, rozmiar>::wyznacznik() const //Gauss
 		  Mtemp=Mtemp.ZamienKolumny(i,j);
 		  temp=temp*(-1);
 		}
-	      flaga=1;
+	      flaga=true;
 	    }
 	  j++;
 	}
@@ -265,7 +265,7 @@ Macierz<typ, rozmiar> Macierz<typ, rozmiar>::ZamienKolumny(int k1, int k2) const
 template <typename typ, int rozmiar>
 Macierz<typ, rozmiar> Macierz<typ, rozmiar>::ZamienWiersze(int w1, int w2) const
 {
-  Macierz M2((*this).transponuj());
+  Macierz<typ, rozmiar> M2((*this).transponuj());
   if(w1<0 || w1>= rozmiar || w2<0 || w2>=rozmiar)
     {
       std::cerr << "Poza zakresem" << std::endl;
