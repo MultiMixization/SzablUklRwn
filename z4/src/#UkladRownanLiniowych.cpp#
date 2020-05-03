@@ -47,18 +47,12 @@ Wektor<typ, rozmiar> UkladRownanLiniowych<typ, rozmiar>::Rozwiaz() const  //Na r
       Wynik[i]=UklM.wyznacznik();       //Obliczanie wyznacznika podmienionej macierzy
       UklM[i]=UklMac[i];              //Przywracanie macierzy do stanu poczatkowego
     }
-  if(W==0)
-    {
-      std::cerr << "Wyznacznik zerowy." << std::endl;
-      exit(7);
-    }
-  else
+  if(w!=0)
     {
       for(int i=0;i<rozmiar;i++)
 	{
-	  Wynik[i]=Wynik[i]/W;
+	  wynik[i]=wynik[i]/W
 	}
-      return Wynik;
     }
   
 }

@@ -18,6 +18,7 @@ bool otworz(ifstream &wej, const string nazwa) //Nie ma sensu robic modulu na kr
 
 int main(int argc, char *argv[])
 {
+  /*
   if(argc<=1)
     {
       cerr << "Brak wymaganych argumentow" << endl;
@@ -48,4 +49,5 @@ int main(int argc, char *argv[])
   cout << "Rozwiazanie x_1, x_2, x_3: " << wynik << endl;
   cout << "Wektor bledu: " << blad << endl;
   cout << "Dlg wektoru bledu: " << blad.dlugosc() << endl;
+  */
 }

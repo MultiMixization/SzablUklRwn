@@ -1,5 +1,18 @@
 #include "LZespolona.hh"
 
+
+LZespolona sprzerzenie(const LZespolona &Skl1)
+{
+  LZespolona temp=Skl1;
+  temp.im=temp.im*(-1);
+  return temp;
+}
+
+double modul(const LZespolona &Skl1)
+{
+  return sqrt(Skl1.re*Skl1.re+Skl1.im*Skl1.im);
+}
+
 std::istream & operator >> (std::istream &strm, LZespolona &Skl)
 {
   char znak;
@@ -12,7 +25,7 @@ std::istream & operator >> (std::istream &strm, LZespolona &Skl)
   return strm;
 }
 
-std::ostream & operator << (std::ostream &strm, LZespolona Skl)
+std::ostream & operator << (std::ostream &strm, const LZespolona Skl)
 {
   strm << "(" << Skl.re;
   if(Skl.im>=0)
@@ -23,7 +36,7 @@ std::ostream & operator << (std::ostream &strm, LZespolona Skl)
   return strm;
 }
 
-bool operator == (LZespolona Skl1, LZespolona Skl2)
+bool operator == (const LZespolona Skl1, const LZespolona Skl2)
 {
   if(Skl1.re==Skl2.re && Skl1.im==Skl2.im)
     {
@@ -32,16 +45,34 @@ bool operator == (LZespolona Skl1, LZespolona Skl2)
   return false;
 }
 
-bool operator != (LZespolona Skl1, LZespolona Skl2)
+bool operator != (const LZespolona Skl1, const LZespolona Skl2)
 {
-  if(!(Skl1.re==Skl2.re))
+  if(!(Skl1==Skl2))
     {
       return true;
     }
   return false;
 }
 
-LZespolona operator + (LZespolona Skl1, double a)
+bool operator == (const LZespolona Skl1, const double a)
+{
+  if(Skl1.re==a && Skl1.im==0.0)
+    {
+      return true;
+    }
+  return false;
+}
+
+bool operator != (const LZespolona Skl1, const double a)
+{
+  if(!(Skl1==a))
+    {
+      return true;
+    }
+  return false;
+}
+
+LZespolona operator + (const LZespolona Skl1, const double a)
 {
   LZespolona Wynik;
 
@@ -50,7 +81,7 @@ LZespolona operator + (LZespolona Skl1, double a)
   return Wynik;
 }
 
-LZespolona operator - (LZespolona Skl1, double a)
+LZespolona operator - (const LZespolona Skl1, const double a)
 {
   LZespolona Wynik;
   
@@ -59,7 +90,7 @@ LZespolona operator - (LZespolona Skl1, double a)
   return Wynik;
 }
 
-LZespolona operator * (LZespolona Skl1, double a)
+LZespolona operator * (const LZespolona Skl1, const double a)
 {
   LZespolona Wynik;
 
@@ -68,7 +99,7 @@ LZespolona operator * (LZespolona Skl1, double a)
   return Wynik;
 }
 
-LZespolona operator / (LZespolona Skl1, double a)
+LZespolona operator / (const LZespolona Skl1, const double a)
 {
   LZespolona Wynik;
   if(a==0)
@@ -82,7 +113,7 @@ LZespolona operator / (LZespolona Skl1, double a)
   return Wynik;
 }
 
-LZespolona  operator + (LZespolona  Skl1,  LZespolona  Skl2)
+LZespolona  operator + (const LZespolona  Skl1,  const LZespolona  Skl2)
 {
   LZespolona  Wynik;
 
@@ -91,7 +122,7 @@ LZespolona  operator + (LZespolona  Skl1,  LZespolona  Skl2)
   return Wynik;
 }
 
-LZespolona operator - (LZespolona Skl1, LZespolona Skl2)
+LZespolona operator - (const LZespolona Skl1, const LZespolona Skl2)
 {
   LZespolona Wynik;
 
@@ -100,7 +131,7 @@ LZespolona operator - (LZespolona Skl1, LZespolona Skl2)
   return Wynik;
 }
 
-LZespolona operator * (LZespolona Skl1, LZespolona Skl2)
+LZespolona operator * (const LZespolona Skl1, const LZespolona Skl2)
 {
   LZespolona Wynik;
 
@@ -109,7 +140,7 @@ LZespolona operator * (LZespolona Skl1, LZespolona Skl2)
   return Wynik;
 }
 
-LZespolona operator / (LZespolona Skl1, LZespolona Skl2)
+LZespolona operator / (const LZespolona Skl1, const LZespolona Skl2)
 {
   LZespolona Wynik;
   

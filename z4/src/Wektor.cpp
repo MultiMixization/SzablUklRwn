@@ -1,32 +1,7 @@
 #include "Wektor.hh"
 
-template <int rozmiar>
-Wektor::Wektor()
-{
-  for(int i=0;i<rozmiar;i++)
-    {
-      this->tab[i]=0;
-    }
-}
-
-template<typename typ, int rozmiar>
-Wektor::Wektor(typ *tablica)
-{
-  for(int i=0;i<rozmiar;i++)
-    {
-	this->tab[i]=tablica[i];
-    }
-}
-
-Wektor::Wektor(const Wektor &W)
-{
-  for(int i=0;i<rozmiar;i++)
-    {
-      this->tab[i]=W[i];
-    }
-}
-
-const typ & Wektor::operator [](int index) const
+template <typename typ, int rozmiar>
+const typ & Wektor<typ, rozmiar>::operator [](int index) const
 {
   if(index<0 || index >=rozmiar)
     {
@@ -36,7 +11,8 @@ const typ & Wektor::operator [](int index) const
   return tab[index];
 }
 
-typ & Wektor::operator [](int index)
+template <typename typ, int rozmiar>
+typ & Wektor<typ, rozmiar>::operator [](int index)
 {
   if(index<0 || index >=rozmiar)
     {
@@ -46,7 +22,8 @@ typ & Wektor::operator [](int index)
   return tab[index];
 }
 
-Wektor<typ, rozmiar> Wektor::operator +(const Wektor<typ, rozmiar> & W2) const
+template <typename typ, int rozmiar>
+Wektor<typ, rozmiar> Wektor<typ, rozmiar>::operator +(const Wektor<typ, rozmiar> & W2) const
 {
   Wektor<typ, rozmiar> temp;
   for(int i=0;i<rozmiar;i++)
@@ -56,7 +33,8 @@ Wektor<typ, rozmiar> Wektor::operator +(const Wektor<typ, rozmiar> & W2) const
   return temp;
 }
 
-Wektor<typ, rozmiar> Wektor::operator -(const Wektor<typ, rozmiar> & W2) const
+template <typename typ, int rozmiar>
+Wektor<typ, rozmiar> Wektor<typ, rozmiar>::operator -(const Wektor<typ, rozmiar> & W2) const
 {
   Wektor<typ, rozmiar> temp;
   for(int i=0;i<rozmiar;i++)
@@ -66,17 +44,20 @@ Wektor<typ, rozmiar> Wektor::operator -(const Wektor<typ, rozmiar> & W2) const
   return temp;
 }
 
-typ Wektor::operator *(const Wektor<typ, rozmiar> & W2) const
+template <typename typ, int rozmiar>
+typ Wektor<typ, rozmiar>::operator *(const Wektor<typ, rozmiar> & W2) const
 {
-  typ wynik=0;
+  typ wynik;
+  wynik=0;
   for(int i=0;i<rozmiar;i++)
     {
-      wynik+=(*this)[i]*W2[i];
+      wynik=wynik+((*this)[i]*W2[i]);
     }
   return wynik;
 }
 
-Wektor<typ, rozmiar> Wektor::operator *(const typ & ls) const
+template <typename typ, int rozmiar>
+Wektor<typ, rozmiar> Wektor<typ, rozmiar>::operator *(const typ & ls) const
 {
   Wektor<typ, rozmiar> temp;
   for(int i=0;i<rozmiar;i++)
@@ -86,7 +67,8 @@ Wektor<typ, rozmiar> Wektor::operator *(const typ & ls) const
   return temp;
 }
 
-Wektor<typ, rozmiar> Wektor::operator /(const typ & ls) const
+template <typename typ, int rozmiar>
+Wektor<typ, rozmiar> Wektor<typ, rozmiar>::operator /(const typ & ls) const
 {
   Wektor<typ, rozmiar> temp;
   for(int i=0;i<rozmiar;i++)
@@ -96,17 +78,21 @@ Wektor<typ, rozmiar> Wektor::operator /(const typ & ls) const
   return temp;
 }
 
-typ Wektor::dlugosc()
+/*
+template <typename typ, int rozmiar>
+double Wektor<typ, rozmiar>::dlugosc() const
 {
-  typ sum=0;
+  double sum=0;
   for(int i=0;i<rozmiar;i++)
     {
-      sum+=(*this)[i];
+      sum=(*this)[i]*((*this)[i])+sum;
     }
   return sqrt(sum);
 }
+*/
 
-bool Wektor::operator ==(const Wektor<typ, rozmiar> &W2) const
+template <typename typ, int rozmiar>
+bool Wektor<typ, rozmiar>::operator ==(const Wektor<typ, rozmiar> &W2) const
 {
   for(int i=0;i<rozmiar;i++)
     {
@@ -118,12 +104,66 @@ bool Wektor::operator ==(const Wektor<typ, rozmiar> &W2) const
   return 1;
 }
 
-bool Wektor::operator !=(const Wektor &<typ, rozmiar>W2) const
+template<>
+bool Wektor<LZespolona, 2>::operator ==(const Wektor<LZespolona, 2> &W2) const
+{
+  for(int i=0;i<2;i++)
+    {
+      if((*this)[i]!=W2[i])
+	{
+	  return false;
+	}
+    }
+  return true;
+}
+
+template<>
+bool Wektor<LZespolona, 3>::operator ==(const Wektor<LZespolona, 3> &W2) const
+{
+  for(int i=0;i<3;i++)
+    {
+      if((*this)[i]!=W2[i])
+	{
+	  return false;
+	}
+    }
+  return true;
+}
+
+template<>
+bool Wektor<LZespolona, 4>::operator ==(const Wektor<LZespolona, 4> &W2) const
+{
+  for(int i=0;i<4;i++)
+    {
+      if((*this)[i]!=W2[i])
+	{
+	  return false;
+	}
+    }
+  return true;
+}
+
+template<>
+bool Wektor<LZespolona, 5>::operator ==(const Wektor<LZespolona, 5> &W2) const
+{
+  for(int i=0;i<5;i++)
+    {
+      if((*this)[i]!=W2[i])
+	{
+	  return false;
+	}
+    }
+  return true;
+}
+
+template <typename typ, int rozmiar>
+bool Wektor<typ, rozmiar>::operator !=(const Wektor<typ, rozmiar> &W2) const
 {
   return !((*this)==W2);
 }
 
-Wektor<typ, rozmiar> Wektor::swap(int w1, int w2) const
+template <typename typ, int rozmiar>
+Wektor<typ, rozmiar> Wektor<typ, rozmiar>::swap(int w1, int w2) const
 {
   Wektor<typ, rozmiar> W(*this);
   if(w1<0 || w1>=rozmiar || w2<0 || w2>=rozmiar)
@@ -153,17 +193,13 @@ std::ostream &operator << (std::ostream &Strm, const Wektor<typ, rozmiar> &Wek)
 {
   for(int i=0;i<rozmiar;i++)
     {
-      if(Wek[i]>=0)
-	{
-	  Strm << " ";
-	}
-      Strm << Wek[i] << " ";
+      Strm << Wek[i];
     }
   return Strm;
 }
 
 template <typename typ, int rozmiar>
-Wektor<typ, rozmiar> operator *(typ l1, Wektor<typ, rozmiar> &W2)
+Wektor<typ, rozmiar> operator *(typ a, const Wektor<typ, rozmiar> &W2)
 {
-  return W2*l1;
+  return W2*a;
 }

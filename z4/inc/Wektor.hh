@@ -11,7 +11,7 @@ class Wektor {
   typ tab[rozmiar];
   
 public:
-  Wektor<typ, rozmiar>(){for(typ &Wsp: array) Wsp=0;};
+  Wektor<typ, rozmiar>(){for(typ &Wsp: tab) Wsp=0;};
 
   const typ & operator [](int index) const;
   typ & operator [](int index);
@@ -21,6 +21,8 @@ public:
   typ operator *(const Wektor<typ, rozmiar> &W2)const;
   Wektor<typ, rozmiar> operator *(const typ &l2)const;
   Wektor<typ, rozmiar> operator /(const typ &l2)const;
+
+  //double dlugosc() const;
 
   bool operator ==(const Wektor<typ, rozmiar> &W2)const;
   bool operator !=(const Wektor<typ, rozmiar> &W2)const;
@@ -35,6 +37,6 @@ template <typename typ, int rozmiar>
 std::ostream& operator << (std::ostream &Strm, const Wektor<typ, rozmiar> &Wek);
 
 template <typename typ, int rozmiar>
-Wektor<typ, rozmiar> operator *(typ l1, Wektor<typ, rozmiar> &W2);
+Wektor<typ, rozmiar> operator *(typ a, const Wektor<typ, rozmiar> &W2);
 
 #endif

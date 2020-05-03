@@ -1,62 +1,7 @@
 #include "Macierz.hh"
 
-Macierz::Macierz()
-{
-  for(int i=0;i<rozmiar;i++)
-    {
-      for(int j=0;j<rozmiar;j++)
-	{
-	  this->tab[i][j]=0;
-	}
-    }
-}
-
-Macierz::Macierz(typ tablica[])
-{
-  int pom=0;
-  Wektor<typ, rozmiar> temp;
-  for(int i=0;i<rozmiar;i++)
-    {
-      temp[0]=tablica[pom];
-      temp[1]=tablica[pom+1];
-      temp[2]=tablica[pom+2];
-      this->tab[i]=temp;
-      pom=pom+3;
-    }
-}
-
-Macierz::Macierz(Wektor<typ, rozmiar> tablica[])
-{
-  for(int i=0;i<rozmiar;i++)
-    {
-      this->tab[i]=tablica[i];
-    }
-}
-
-Macierz::Macierz(Wektor<typ, rozmiar> A, Wektor<typ, rozmiar> B, Wektor<typ, rozmiar> C)
-{
-  this->tab[0]=A;
-  this->tab[1]=B;
-  this->tab[2]=C;
-}
-
-Macierz::Macierz(int jednostkowa)
-{
-  if(jednostkowa!=1)
-    {
-      std::cerr << "Macierz jednostkowa z niezerowym argumentem." << std::endl;
-      exit(2);
-    }
-  for(int i=0;i<rozmiar;i++)
-    {
-      for(int j=0;j<rozmiar;j++)
-	{
-	  this->tab[i][j]=jednostkowa;
-	}
-    }
-}
-
-const Wektor<typ, rozmiar> & Macierz::operator [](int index) const
+template<typename typ, int rozmiar>
+const Wektor<typ, rozmiar> & Macierz<typ, rozmiar>::operator [](int index) const
 {
   if(index<0 || index>=rozmiar)
     {
@@ -66,7 +11,8 @@ const Wektor<typ, rozmiar> & Macierz::operator [](int index) const
   return this->tab[index];
 }
 
-Wektor<typ, rozmiar> & Macierz::operator [](int index)
+template<typename typ, int rozmiar>
+Wektor<typ, rozmiar> & Macierz<typ, rozmiar>::operator [](int index)
 {
   if(index<0 || index >=rozmiar)
     {
@@ -76,10 +22,11 @@ Wektor<typ, rozmiar> & Macierz::operator [](int index)
   return this->tab[index];
 }
 
-double Macierz::wyznacznik() const //Gauss
+template<typename typ, int rozmiar>
+typ Macierz<typ, rozmiar>::wyznacznik() const //Gauss
 {
   Macierz Mtemp(*this);
-  double temp=1;
+  typ temp(1);
   for(int i=0;i<rozmiar;i++)
     {
       bool flaga=0;
@@ -91,7 +38,7 @@ double Macierz::wyznacznik() const //Gauss
 	      if(i!=j)
 		{
 		  Mtemp=Mtemp.ZamienKolumny(i,j);
-		  temp=-temp;
+		  temp=temp*(-1);
 		}
 	      flaga=1;
 	    }
@@ -99,7 +46,8 @@ double Macierz::wyznacznik() const //Gauss
 	}
       if(!flaga)
 	{
-	  return 0;
+	  temp=0;
+	  return temp;
 	}
       for(int k=i+1;k<rozmiar;k++)
 	{
@@ -113,19 +61,46 @@ double Macierz::wyznacznik() const //Gauss
   return temp;
 }
 
-double Macierz::dopelnienie(int x, int y) const
+template<typename typ, int rozmiar>
+typ Macierz<typ, rozmiar>::dopelnienie(int x, int y) const
 {
-  double temp;
-  if(x<0 || x>=ROZMIAR || y<0 || y>=ROZMIAR)
+  Macierz<typ, rozmiar-1> MPom;
+  if(x<0 || x>=rozmiar || y<0 || y>=rozmiar)
     {
       std::cerr << "Poza zakresem" << std::endl;
       exit(1);
     }
-  temp=(*this)[(x+1)%rozmiar][(y+1)%rozmiar] * (*this)[(x+2)%rozmiar][(y+2)%rozmiar] - (*this)[(x+2)%rozmiar][(y+1)%rozmiar] * (*this)[(x+1)%rozmiar][(y+2)%rozmiar];
-  return temp;
-}
 
-Macierz<typ, rozmiar> Macierz::operator +(const Macierz<typ, rozmiar> &B) const
+  int b=0;
+  for(int i=0;i<rozmiar;i++)
+    {
+      if(i!=x)
+	{
+	  int a=0;
+	  for(int j=0;j<rozmiar;j++)
+	    {
+	      if(j!=y)
+		{
+		  MPom[a][b]=(*this)[i][j];
+		  a++;
+		}
+	    }
+	  b++;
+	}
+    }     //To powinno dac macierz po wykresleniu kolumny i wiersza
+
+  if(x+y%2==0)
+    {
+      return MPom.wyznacznik();
+    }
+  else
+    {
+      return MPom.wyznacznik()*(-1);
+    }
+  }
+
+template<typename typ, int rozmiar>
+Macierz<typ, rozmiar> Macierz<typ, rozmiar>::operator +(const Macierz<typ, rozmiar> &B) const
 {
   Macierz<typ, rozmiar> wynik;
   for(int i=0;i<rozmiar;i++)
@@ -135,7 +110,8 @@ Macierz<typ, rozmiar> Macierz::operator +(const Macierz<typ, rozmiar> &B) const
   return wynik;
 }
 
-Macierz<typ, rozmiar> Macierz::operator -(const Macierz<typ, rozmiar> &B) const
+template<typename typ, int rozmiar>
+Macierz<typ, rozmiar> Macierz<typ, rozmiar>::operator -(const Macierz<typ, rozmiar> &B) const
 {
   Macierz<typ, rozmiar> wynik;
   for(int i=0;i<rozmiar;i++)
@@ -145,7 +121,8 @@ Macierz<typ, rozmiar> Macierz::operator -(const Macierz<typ, rozmiar> &B) const
   return wynik;
 }
 
-Macierz<typ, rozmiar> Macierz::operator *(const Macierz<typ, rozmiar> &B) const
+template<typename typ, int rozmiar>
+Macierz<typ, rozmiar> Macierz<typ, rozmiar>::operator *(const Macierz<typ, rozmiar> &B) const
 {
   Macierz<typ, rozmiar> MATrans((*this).transponuj());
   Macierz<typ, rozmiar> temp;
@@ -159,9 +136,10 @@ Macierz<typ, rozmiar> Macierz::operator *(const Macierz<typ, rozmiar> &B) const
   return temp;
 }
 
-Macierz<typ, rozmiar> Macierz::operator *(const typ B) const
+template<typename typ, int rozmiar>
+Macierz<typ, rozmiar> Macierz<typ, rozmiar>::operator *(const typ B) const
 {
-  Macierz<typ rozmiar> wynik;
+  Macierz<typ, rozmiar> wynik;
   for(int i=0;i<rozmiar;i++)
     {
       wynik[i]=(*this)[i]*B;
@@ -169,7 +147,8 @@ Macierz<typ, rozmiar> Macierz::operator *(const typ B) const
   return wynik;
 }
 
-Wektor<typ, rozmiar> Macierz::operator *(const Wektor<typ, rozmiar> &W) const
+template<typename typ, int rozmiar>
+Wektor<typ, rozmiar> Macierz<typ, rozmiar>::operator *(const Wektor<typ, rozmiar> &W) const
 {
   Wektor<typ, rozmiar> wynik;
   for(int i=0;i<rozmiar;i++)
@@ -182,7 +161,8 @@ Wektor<typ, rozmiar> Macierz::operator *(const Wektor<typ, rozmiar> &W) const
   return wynik;
 }
 
-bool Macierz::operator ==(const Macierz<typ, rozmiar> &W2)const
+template<typename typ, int rozmiar>
+bool Macierz<typ, rozmiar>::operator ==(const Macierz<typ, rozmiar> &W2)const
 {
   for(int i=0;i<rozmiar;i++)
     {
@@ -194,12 +174,14 @@ bool Macierz::operator ==(const Macierz<typ, rozmiar> &W2)const
   return 1;
 }
 
-bool Macierz::operator !=(const Macierz<typ, rozmiar> &W2)const
+template<typename typ, int rozmiar>
+bool Macierz<typ, rozmiar>::operator !=(const Macierz<typ, rozmiar> &W2)const
 {
   return !(*this==W2);
 }
 
-Macierz<typ, rozmiar> Macierz::transponuj() const
+template<typename typ, int rozmiar>
+Macierz<typ, rozmiar> Macierz<typ, rozmiar>::transponuj() const
 {
   Macierz<typ, rozmiar> temp;
   for(int i=0;i<rozmiar;i++)
@@ -212,10 +194,11 @@ Macierz<typ, rozmiar> Macierz::transponuj() const
   return temp;
 }
 
-Macierz<typ rozmiar> Macierz::odwroc() const
+template<typename typ, int rozmiar>
+Macierz<typ, rozmiar> Macierz<typ, rozmiar>::odwroc() const
 {
-  Macierz<typ rozmiar> temp;
-  double Wyzn=(*this).wyznacznik();
+  Macierz<typ, rozmiar> temp;
+  typ Wyzn=(*this).wyznacznik();
   if(Wyzn==0)
     {
       std::cerr << "Wyznacznik 0." << std::endl;
@@ -259,14 +242,15 @@ std::ostream& operator << (std::ostream &Strm, const Macierz<typ, rozmiar> &Mac)
 }
 
 template <typename typ, int rozmiar>
-Macierz operator *(double l, const Macierz<typ,rozmiar> M)
+Macierz<typ, rozmiar> operator *(typ l, const Macierz<typ,rozmiar> M)
 {
   return M*l;
 }
 
-Macierz<typ, rozmiar> Macierz::ZamienKolumny(int k1, int k2) const
+template <typename typ, int rozmiar>
+Macierz<typ, rozmiar> Macierz<typ, rozmiar>::ZamienKolumny(int k1, int k2) const
 {
-  Macierz<typ rozmiar> M2(*this);
+  Macierz<typ, rozmiar> M2(*this);
   if(k1<0 || k1>=rozmiar || k2<0 || k2>=rozmiar)
     {
       std::cerr << "Poza zakresem" << std::endl;
@@ -278,7 +262,8 @@ Macierz<typ, rozmiar> Macierz::ZamienKolumny(int k1, int k2) const
   return M2;
 }
 
-Macierz<typ, rozmiar> Macierz::ZamienWiersze(int w1, int w2) const
+template <typename typ, int rozmiar>
+Macierz<typ, rozmiar> Macierz<typ, rozmiar>::ZamienWiersze(int w1, int w2) const
 {
   Macierz M2((*this).transponuj());
   if(w1<0 || w1>= rozmiar || w2<0 || w2>=rozmiar)
