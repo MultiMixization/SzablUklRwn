@@ -193,7 +193,7 @@ std::ostream &operator << (std::ostream &Strm, const Wektor<typ, rozmiar> &Wek)
 {
   for(int i=0;i<rozmiar;i++)
     {
-      Strm << Wek[i];
+      Strm << Wek[i] << " ";
     }
   return Strm;
 }

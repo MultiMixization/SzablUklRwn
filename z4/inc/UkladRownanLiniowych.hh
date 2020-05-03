@@ -12,8 +12,8 @@ class UkladRownanLiniowych {
   Wektor<typ, rozmiar> UklWek;
   
 public:
-  UkladRownanLiniowych<typ, rozmiar>(){}; //Zostawiam puste
-  UkladRownanLiniowych<typ, rozmiar>(const Macierz<typ, rozmiar> & A, const Wektor<typ, rozmiar> & B);
+  UkladRownanLiniowych<typ, rozmiar>(){};
+  UkladRownanLiniowych<typ, rozmiar>(const Macierz<typ, rozmiar> & A, const Wektor<typ, rozmiar> & B){UklMac=A; UklWek=B;};
   
   const Wektor<typ, rozmiar> & getwektor() const;
   void setwektor(const Wektor<typ, rozmiar> & W);

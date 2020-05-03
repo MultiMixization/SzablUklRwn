@@ -1,7 +1,9 @@
 #include <iostream>
+#include <iomanip>
 #include "Wektor.hh"
 #include "Macierz.hh"
 #include "UkladRownanLiniowych.hh"
+#include "LZespolona.hh"
 
 using namespace std;
 
@@ -18,7 +20,6 @@ bool otworz(ifstream &wej, const string nazwa) //Nie ma sensu robic modulu na kr
 
 int main(int argc, char *argv[])
 {
-  /*
   if(argc<=1)
     {
       cerr << "Brak wymaganych argumentow" << endl;
@@ -26,28 +27,25 @@ int main(int argc, char *argv[])
     }
   string temp=argv[1];
   ifstream wej;
-  UkladRownanLiniowych Uklad;
-  Wektor wynik;
-  Wektor blad;
-
-  otworz(wej, temp+".txt");
+  UkladRownanLiniowych<double, 5> Uklad;
+  Wektor<double, 5> wynik;
+  Wektor<double, 5> blad;
   
-  wej >> Uklad;
-
-  cout << Uklad << endl;;
-
+  otworz(wej, temp+".txt");
   if(!cin.good())
     {
       cerr << "Blad wczytywania." << endl;
       exit(5);
     }
-  
+  wej >> Uklad;
+
+  //cout << Uklad << endl;;
   cout << "---Rozwiazanie metoda Cramera---" << endl;
   //cout << "Wyznacznik glowny: " << Uklad.getmacierz().wyznacznik() << endl;
   wynik=Uklad.Rozwiaz();
   blad=Uklad.getmacierz()*wynik-Uklad.getwektor();
-  cout << "Rozwiazanie x_1, x_2, x_3: " << wynik << endl;
-  cout << "Wektor bledu: " << blad << endl;
-  cout << "Dlg wektoru bledu: " << blad.dlugosc() << endl;
-  */
+  cout << "Rozwiazania: " << fixed << setprecision(2) << wynik << endl;
+  cout << "Wektor bledu: " << scientific << setprecision(1)<< blad << endl;
+  //out << "Dlg wektoru bledu: " << blad.dlugosc() << endl;
+  
 }

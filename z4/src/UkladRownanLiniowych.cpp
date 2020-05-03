@@ -1,13 +1,6 @@
 #include "UkladRownanLiniowych.hh"
 
 template <typename typ, int rozmiar>
-UkladRownanLiniowych<typ, rozmiar>::UkladRownanLiniowych(const Macierz<typ, rozmiar> &Am, const Wektor<typ, rozmiar> &Bw)
-{
-  this->UklMac=Am;
-  this->UklWek=Bw;
-}
-
-template <typename typ, int rozmiar>
 const Wektor<typ, rozmiar> & UkladRownanLiniowych<typ, rozmiar>::getwektor() const
 {
   return UklWek;

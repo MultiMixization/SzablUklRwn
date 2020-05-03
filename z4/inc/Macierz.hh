@@ -1,13 +1,12 @@
 #ifndef MACIERZ_HH
 #define MACIERZ_HH
 
-#include "rozmiar.h"
 #include <iostream>
 #include "Wektor.hh"
 
 template<typename typ, int rozmiar>
 class Macierz {
-  Wektor<typ, rozmiar> tab[ROZMIAR];
+  Wektor<typ, rozmiar> tab[rozmiar];
 
   typ dopelnienie(int x, int y) const;
 public:
