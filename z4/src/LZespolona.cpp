@@ -1,5 +1,14 @@
 #include "LZespolona.hh"
 
+LZespolona::operator double()
+{
+  if(abs(im)>0.0000001)
+    {
+      std::cerr << "Blad konwersji LZ do double." << std::endl;
+      exit(8);
+    }
+  return re;
+}
 
 LZespolona sprzezenie(const LZespolona &Skl1)
 {

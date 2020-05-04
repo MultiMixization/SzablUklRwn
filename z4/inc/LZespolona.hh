@@ -22,6 +22,8 @@ struct  LZespolona
   LZespolona() : re(0), im(0) {};
   LZespolona(double re2, double im2) : re(re2), im(im2){};
   explicit LZespolona (double liczba) : re(liczba), im(0) {};
+
+  operator double();
   
   LZespolona operator = (double liczba) {re=liczba; im=0.0; return(*this);};
 };

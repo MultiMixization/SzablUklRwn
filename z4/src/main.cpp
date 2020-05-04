@@ -46,6 +46,6 @@ int main(int argc, char *argv[])
   blad=Uklad.getmacierz()*wynik-Uklad.getwektor();
   cout << "Rozwiazania: " << fixed << setprecision(2) << wynik << endl;
   cout << "Wektor bledu: " << scientific << setprecision(1)<< blad << endl;
-  //out << "Dlg wektoru bledu: " << blad.dlugosc() << endl;
+  cout << "Dlg wektoru bledu: " << blad.dlugosc() << endl;
   
 }

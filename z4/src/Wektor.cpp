@@ -78,7 +78,7 @@ Wektor<typ, rozmiar> Wektor<typ, rozmiar>::operator /(const typ & ls) const
   return temp;
 }
 
-/*
+
 template <typename typ, int rozmiar>
 double Wektor<typ, rozmiar>::dlugosc() const
 {
@@ -89,7 +89,38 @@ double Wektor<typ, rozmiar>::dlugosc() const
     }
   return sqrt(sum);
 }
-*/
+
+template<>
+double Wektor<LZespolona, 2>::dlugosc() const
+{
+  double sum=0;
+  for(int i=0;i<2;i++)
+    {
+      sum=(*this)[i]*sprzezenie((*this)[i])+sum;
+    }
+  return sqrt(sum);
+}
+
+template<>
+double Wektor<LZespolona, 4>::dlugosc() const
+{
+  double sum=0;
+  for(int i=0;i<4;i++)
+    {
+      sum=(*this)[i]*sprzezenie((*this)[i])+sum;
+    }
+  return sqrt(sum);
+}
+template<>
+double Wektor<LZespolona, 5>::dlugosc() const
+{
+  double sum=0;
+  for(int i=0;i<5;i++)
+    {
+      sum=(*this)[i]*sprzezenie((*this)[i])+sum;
+    }
+  return sqrt(sum);
+}
 
 template <typename typ, int rozmiar>
 bool Wektor<typ, rozmiar>::operator ==(const Wektor<typ, rozmiar> &W2) const

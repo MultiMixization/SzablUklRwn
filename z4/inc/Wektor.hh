@@ -22,7 +22,7 @@ public:
   Wektor<typ, rozmiar> operator *(const typ &l2)const;
   Wektor<typ, rozmiar> operator /(const typ &l2)const;
 
-  //double dlugosc() const;
+  double dlugosc() const;
 
   bool operator ==(const Wektor<typ, rozmiar> &W2)const;
   bool operator !=(const Wektor<typ, rozmiar> &W2)const;
