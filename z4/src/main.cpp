@@ -27,25 +27,50 @@ int main(int argc, char *argv[])
     }
   string temp=argv[1];
   ifstream wej;
-  UkladRownanLiniowych<LZespolona, 5> Uklad;
-  Wektor<LZespolona, 5> wynik;
-  Wektor<LZespolona, 5> blad;
+  char rodzaj;
   
-  otworz(wej, temp+".txt");
+  otworz(wej, temp);
   if(!cin.good())
     {
       cerr << "Blad wczytywania." << endl;
       exit(5);
     }
-  wej >> Uklad;
+  wej >> rodzaj;
 
-  cout << fixed << setprecision(2) << Uklad << endl;;
-  cout << "---Rozwiazanie metoda Cramera---" << endl;
-  cout << "Wyznacznik glowny: " << Uklad.getmacierz().wyznacznik() << endl;
-  wynik=Uklad.Rozwiaz();
-  blad=Uklad.getmacierz()*wynik-Uklad.getwektor();
-  cout << "Rozwiazania: " << fixed << setprecision(2) << wynik << endl;
-  cout << "Wektor bledu: " << scientific << setprecision(1)<< blad << endl;
-  cout << "Dlg wektoru bledu: " << blad.dlugosc() << endl;
-  
+  if(rodzaj=='z')
+    {
+      UkladRownanLiniowych<LZespolona, 5> Uklad;
+      Wektor<LZespolona, 5> wynik;
+      Wektor<LZespolona, 5> blad;
+
+      wej >> Uklad;
+      cout << fixed << setprecision(2) << Uklad << endl;;
+      cout << "---Rozwiazanie metoda Cramera---" << endl;
+      cout << "Wyznacznik glowny: " << Uklad.getmacierz().wyznacznik() << endl;
+      wynik=Uklad.Rozwiaz();
+      blad=Uklad.getmacierz()*wynik-Uklad.getwektor();
+      cout << "Rozwiazania: " << fixed << setprecision(2) << wynik << endl;
+      cout << "Wektor bledu: " << scientific << setprecision(1)<< blad << endl;
+      cout << "Dlg wektoru bledu: " << blad.dlugosc() << endl;
+      return 0;
+    }
+  if(rodzaj=='r')
+    {
+      UkladRownanLiniowych<double, 5> Uklad;
+      Wektor<double, 5> wynik;
+      Wektor<double, 5> blad;
+
+      wej >> Uklad;
+      cout << fixed << setprecision(2) << Uklad << endl;;
+      cout << "---Rozwiazanie metoda Cramera---" << endl;
+      cout << "Wyznacznik glowny: " << Uklad.getmacierz().wyznacznik() << endl;
+      wynik=Uklad.Rozwiaz();
+      blad=Uklad.getmacierz()*wynik-Uklad.getwektor();
+      cout << "Rozwiazania: " << fixed << setprecision(2) << wynik << endl;
+      cout << "Wektor bledu: " << scientific << setprecision(1)<< blad << endl;
+      cout << "Dlg wektoru bledu: " << blad.dlugosc() << endl;
+      return 0;
+    }
+  cerr << "Brak okreslonego typu zawartosci." << endl;
+  exit(9);
 }
